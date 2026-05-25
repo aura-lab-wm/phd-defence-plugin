@@ -3,6 +3,7 @@
   "description": "Stress-test any idea, thesis, methodology/evaluation strategy, or grant proposal against hostile reviewers before the real ones see it. Picks a fitting evaluation lens (research-idea, methodology-strategy, thesis-defense, or nsf-grant), each with its own checklist, attack templates, and a lens-driven simulator.",
   "version": "1.1.0",
   "author": {
-    "name": "Antonio Mastropaolo"
+    "name": "AURA SE Lab",
+    "email": "aura.se.lab@gmail.com"
   }
 }

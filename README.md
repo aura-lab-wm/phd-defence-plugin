@@ -5,7 +5,7 @@
 > runs is `phd-defence/skills/phd-defence/SKILL.md`. Edit that file to change
 > behavior; edit this one to change what teammates read.
 
-This repository is a Claude Code **plugin marketplace** (`mastropaolo-skills`)
+This repository is a Claude Code **plugin marketplace** (`aura-se-lab-skills`)
 containing a single plugin, `phd-defence`.
 
 ## What the skill does
@@ -23,7 +23,7 @@ In Claude Code:
 
 ```
 /plugin marketplace add aura-lab-wm/phd-defence-plugin
-/plugin install phd-defence@mastropaolo-skills
+/plugin install phd-defence@aura-se-lab-skills
 ```
 
 (The repo is private to the `aura-lab-wm` org, so coworkers need org access and a
@@ -34,7 +34,7 @@ directly:
 
 ```
 /plugin marketplace add /path/to/phd-defence-plugin
-/plugin install phd-defence@mastropaolo-skills
+/plugin install phd-defence@aura-se-lab-skills
 ```
 
 ## Use
