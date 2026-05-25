@@ -1,7 +1,7 @@
 {
   "name": "phd-defence",
-  "description": "Stress-test a research idea, thesis, or NSF proposal against hostile reviewers before the real ones see it: a 15-point pre-submission checklist mapped to NSF criteria, section-by-section attack templates, and an optional gamified simulator.",
-  "version": "1.0.0",
+  "description": "Stress-test any idea, thesis, methodology/evaluation strategy, or grant proposal against hostile reviewers before the real ones see it. Picks a fitting evaluation lens (research-idea, methodology-strategy, thesis-defense, or nsf-grant), each with its own checklist, attack templates, and a lens-driven simulator.",
+  "version": "1.1.0",
   "author": {
     "name": "Antonio Mastropaolo"
   }

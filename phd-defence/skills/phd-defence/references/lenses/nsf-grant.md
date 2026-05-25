@@ -1,6 +1,8 @@
-# NSF Proposal Hardening
+# NSF / Grant Proposal Hardening
 
-How to use the PhD Defence game to harden an NSF proposal (or any competitive grant) before submission. The game's 15 attack vectors map onto the questions a real panel actually asks.
+**Lens:** `nsf-grant` — use when the subject of evaluation is a competitive grant proposal (NSF or similar). For a general research idea use the `research-idea` lens; for an engineering/evaluation strategy use `methodology-strategy`; for a completed dissertation use `thesis-defense`.
+
+How to harden an NSF proposal (or any competitive grant) before submission. This lens's 15 attack vectors map onto the questions a real panel actually asks.
 
 ## The two-criterion frame
 

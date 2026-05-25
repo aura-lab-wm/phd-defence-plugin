@@ -1,87 +1,106 @@
 ---
 name: phd-defence
-description: Stress-test a research idea, thesis, or NSF proposal against hostile reviewers before the real ones see it. The skill bundles a 15-point pre-submission checklist mapped to NSF criteria, section-by-section attack templates with the questions reviewers actually ask, and an optional gamified simulator for low-stakes practice. Use whenever the user says /phd-defence, wants a mock defense, wants to identify weaknesses in a draft proposal, wants Claude to play hostile reviewer, or wants a hardening checklist for NSF or similar grants. Trigger even if the user only says "kill my idea", "stress-test my proposal", "defence simulation", or "mock defense."
+description: Stress-test any idea, thesis, research direction, methodology/evaluation strategy, or grant proposal against hostile reviewers before the real ones see it. The skill picks an evaluation LENS that fits the subject — research-idea (default), methodology-strategy, thesis-defense, or nsf-grant — and applies that lens's checklist, section-by-section attack templates, and an optional gamified simulator. Use whenever the user wants a mock defense, wants weaknesses found in a draft/idea/plan, wants Claude to play hostile reviewer, or says /phd-defence, "kill my idea", "stress-test my proposal", "poke holes in this strategy", "mock defense", or "harden my NSF proposal."
 ---
 
 # PhD Defence
 
-A skill for hardening a research idea, thesis, or grant proposal against hostile review. The skill bundles three things, in descending order of practical value:
+A skill for hardening *any* intellectual artifact against hostile review by
+stress-testing it before real reviewers do. The subject can be a general
+research idea, a methodology or evaluation strategy, a completed thesis, or a
+grant proposal — so the skill is built around **pluggable lenses**, one per kind
+of subject. Each lens supplies its own checklist, its own attack templates, and
+its own set of simulator attack vectors.
 
-1. **A 15-point pre-submission checklist** mapped to NSF criteria and common reviewer concerns.
-2. **Section-by-section hostile attack templates** with the specific questions reviewers actually ask.
-3. **An optional gamified simulator** that models the iterative defense-and-revise dynamic, useful for getting a feel for the mechanic or for low-stakes practice.
+The skill bundles three things, in descending order of practical value:
 
-The simulator is the LEAST important artifact. It is a stylized model and cannot read the actual proposal. The checklist and attack templates are where the value sits.
+1. **A per-lens checklist** of the vectors a reviewer will probe.
+2. **Section/dimension-by-dimension hostile attack templates** — the specific questions reviewers actually ask.
+3. **An optional gamified simulator** that models the iterative defend-and-revise dynamic. It is the LEAST important artifact (a stylized model that cannot read the actual subject); the checklist and attack templates are where the value sits.
 
 ## When to use this skill
 
-Use it in any of these cases:
-1. User has a research idea, thesis chapter, or proposal draft and wants it stress-tested.
-2. User wants a checklist for what to address before NSF submission.
-3. User wants Claude to play hostile reviewer on their actual proposal.
-4. User invokes `/phd-defence` or asks for a "mock defense."
+- The user has an idea, thesis chapter, strategy, plan, or proposal draft and wants it stress-tested.
+- The user wants a checklist of what to address before submitting/committing.
+- The user wants Claude to play hostile reviewer on their actual artifact.
+- The user invokes `/phd-defence` or asks for a "mock defense" / "kill my idea" / "poke holes in this."
+
+## Step 0 — pick the lens (do this first)
+
+The *subject* of evaluation and the *lens* you judge it through are separate.
+Classify the subject, then choose the matching lens:
+
+| Lens | Use when the subject is… |
+|---|---|
+| `research-idea` (default) | a general research idea, hypothesis, or direction — pre-paper, pre-commitment |
+| `methodology-strategy` | an engineering / experimental / test / evaluation strategy, pipeline, or protocol |
+| `thesis-defense` | a completed PhD/dissertation body of work facing a committee |
+| `nsf-grant` | a competitive grant/funding proposal (NSF or similar) |
+
+The registry in `references/lenses.json` maps each lens to its checklist file,
+its trigger keywords, and its simulator config. Match on the subject and on the
+user's wording (e.g. "grant"/"broader impacts" → `nsf-grant`; "test plan"/
+"evaluation strategy"/"pipeline" → `methodology-strategy`; "dissertation"/
+"committee" → `thesis-defense`). **If the subject doesn't clearly fit a grant,
+thesis, or strategy, default to `research-idea`.** When genuinely ambiguous, ask
+the user which lens fits before proceeding. Adding a new domain later = drop a
+`references/lenses/<id>.md` + register it in `lenses.json`; nothing else changes.
 
 ## The actually useful workflow
 
-For a real proposal, do this in order. Do NOT skip to the simulator.
+For a real artifact, do this in order. Do NOT skip to the simulator.
 
-**Step 1: Run the 15-point checklist against the proposal.** See `references/nsf_hardening.md` for the full list. Mark each vector as defended, partial, or absent. This step requires reading the proposal carefully, not running code.
+**Step 1: Read `references/lenses/<lens>.md` and run its checklist against the subject.** Mark each vector as defended, partial, or absent. This requires reading the artifact carefully, not running code.
 
-**Step 2: For each absent or partial vector, write specific hostile questions grounded in the user's actual text.** A real reviewer attacks "your evaluation plan uses accuracy on a 200-sample test set drawn from the same distribution as your training data," not "evaluation is weak." The attack must quote the proposal.
+**Step 2: For each absent or partial vector, write specific hostile questions grounded in the user's actual text.** A real reviewer attacks "your consensus filter discards any case only one model flags, so a real bug the other model missed is silently dropped," not "the methodology is weak." The attack must quote/reference the artifact.
 
-**Step 3: Have the user defend each attack in writing or out loud.** Where the defense is shaky, that's where revision is needed. Where the defense is solid, mark the vector defended.
+**Step 3: Have the user defend each attack in writing or out loud.** Where the defense is shaky, that's where revision is needed. Where it's solid, mark the vector defended.
 
-**Step 4 (optional): Run the simulator** with `--initial-defended <vectors>` set to what the user genuinely has defended. The simulator output is more useful as a confidence calibration than as a gap finder, because the simulator does not know the proposal content.
-
-## What the simulator does and does not do
-
-The simulator runs a panel of 5 fictional reviewers who ask 8 questions per attempt, drawn from 15 attack vectors. Undefended vectors take damage, candidate dies, the highest-damage vector that landed is added to the defended set, repeat until the candidate survives a full attempt.
-
-Useful for:
-* Getting a feel for the attack-and-revise loop before doing it for real.
-* Demonstrating that proposals usually need multiple revision rounds.
-* Practice in low-stakes mode for users who freeze in real defenses.
-
-NOT useful for:
-* Identifying specific weaknesses in a specific proposal. The simulator does not read the proposal. The vectors it flags are whatever its RNG happened to land on. This is echo, not insight.
-* Predicting how an actual panel will respond. Real panels have champion-and-detractor dynamics, program officer priorities, and content expertise that no toy model captures.
-* Statistical claims about which vectors are "consistent gaps" across seeds. The game is stochastic and small-N; cross-seed patterns are not informative.
+**Step 4 (optional): Run the simulator** with `--lens <lens> --initial-defended <vectors>` set to what the user genuinely has defended. The simulator output is more useful as confidence calibration than as a gap finder, because it does not know the subject's content.
 
 ## Running the simulator
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/scripts/simulator.py --seed 42
+python3 ${CLAUDE_SKILL_DIR}/scripts/simulator.py --lens research-idea --seed 42
 ```
 
 Useful options:
-* `--initial-defended novelty prior_work` — start with some vectors already defended
-* `--quiet` — show only summary
+* `--list-lenses` — show every lens and its attack vectors
+* `--lens <id>` — choose the lens (default: `research-idea`)
+* `--initial-defended <vectors>` — start with some vectors already defended (lens-specific; see `--list-lenses`)
+* `--quiet` — show only the summary
 * `--json` — structured output
 * `--hp 100 --questions-per-attempt 8` — tune difficulty
 
+The simulator runs a panel of fictional reviewers drawn from the chosen lens's
+committee; undefended vectors take damage; on death the highest-damage vector is
+added to the defended set; repeat until the candidate survives a full pass.
+
 ## Modes of play
 
-**Mode 1 (recommended for real proposals): Hostile review with Claude as reviewer.** Claude reads the user's proposal, runs the 15-point checklist, identifies gaps, and writes specific hostile questions grounded in the proposal text. The simulator is not used or is used only afterward as a confidence check.
+**Mode 1 (recommended for a real artifact): Hostile review with Claude as reviewer.** Pick the lens, read its checklist, identify gaps, and write specific hostile questions grounded in the artifact text. The simulator is unused or used only afterward as a confidence check.
 
-**Mode 2: Watch a simulated run.** Run the simulator and walk through the output. Useful for first-time users to understand the mechanic. Do not pretend the output is diagnosing the user's real proposal.
+**Mode 2: Watch a simulated run.** Run the simulator and walk through the output. Useful for first-time users to understand the mechanic. Do not pretend the output diagnoses the user's real artifact.
 
-**Mode 3: Interactive role-play.** Claude plays the committee in real time. User defends out loud or in writing. Claude judges each defense (full / partial / no) and tracks HP. On death, Claude tells the user which question landed hardest. Good for oral defense practice; requires the user to have a real proposal to defend.
+**Mode 3: Interactive role-play.** Claude plays the panel from the chosen lens in real time. User defends out loud or in writing. Claude judges each defense (full / partial / no) and tracks HP. Good for oral-defense practice; requires a real artifact to defend.
 
-Default to Mode 1 if the user has a proposal. Use Mode 2 only if the user explicitly wants to see the game.
+Default to Mode 1 if the user has an artifact. Use Mode 2 only if they explicitly want to see the game.
 
 ## Honest limitations
 
-Expert review of this skill noted that the simulator's vector flags duplicate the user's own `--initial-defended` input rather than producing independent insight. That is correct. The simulator is a pedagogical scaffold, not a diagnostic tool.
-
-Expert review also noted that real PhD defenses are not damage-based combat — they are coherent discussions of a body of work. This skill leans more usefully toward grant proposal hardening (where the hostile-reviewer mental model fits) than toward actual dissertation defense (where it doesn't quite). Use accordingly.
-
-A 10-minute conversation with a colleague who knows the field will produce better feedback than running the simulator. Use the simulator when no such colleague is available, or as warmup before that conversation.
+- The simulator does not know the specific content. It identifies CATEGORIES of weakness, not the specific flawed argument on page 4. Use it to find which categories deserve attention, then bring domain expertise to patch the specific holes.
+- The combat metaphor fits some lenses better than others: it maps well to grant/strategy hardening (hostile-reviewer mental model) and least well to a real dissertation defense, which is a coherent discussion of a body of work, not damage-based combat. The `thesis-defense` lens leans on the checklist and question templates more than the game.
+- A 10–20 minute conversation with a colleague who knows the field beats running the simulator. Use the simulator when no such colleague is available, or as warmup before that conversation.
 
 ## Reference files
 
-* `references/nsf_hardening.md` — the 15-point checklist, section-by-section attack templates, and pre-submission workflow. Read this first.
-* `scripts/simulator.py` — the optional game engine.
+* `references/lenses.json` — the lens registry: subject→lens mapping, trigger keywords, and per-lens simulator config (attack vectors, committee personas, partial-defense map). Read this to choose the lens.
+* `references/lenses/<lens>.md` — the checklist, attack templates, and drop-in review prompt for each lens. Read the chosen one first.
+* `scripts/simulator.py` — the optional, lens-driven game engine.
 
 ## Related
 
-There is a sister skill, `friction-run`, which uses a similar adversarial-simulation structure for budget defense. They share design philosophy (encode pressure into a simulation, extract the playbook) but solve different problems.
+There is a sister skill, `friction-run`, which uses a similar
+adversarial-simulation structure for budget defense. They share design
+philosophy (encode pressure into a simulation, extract the playbook) but solve
+different problems.

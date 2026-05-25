@@ -1,0 +1,172 @@
+{
+  "_note": "Registry + simulator config for the phd-defence skill. Each lens supplies its own attack vectors, committee personas, and partial-defense map, so the same adversarial workflow + simulator runs against grants, research ideas, methodology/engineering strategies, or a thesis. The .md file per lens holds the human/Claude-facing checklist and attack templates. To add a domain: add an entry here + a lenses/<id>.md.",
+  "default": "research-idea",
+  "lenses": {
+    "nsf-grant": {
+      "label": "NSF / competitive grant proposal",
+      "md": "lenses/nsf-grant.md",
+      "keywords": ["nsf", "grant", "proposal", "funding", "broader impacts", "intellectual merit", "solicitation", "panel", "program officer", "budget"],
+      "vectors": {
+        "novelty": "Is this actually new vs prior work?",
+        "prior_work": "Have you covered the closest competing literature?",
+        "methodology": "Is the method concrete and sound?",
+        "evaluation": "How will success be measured?",
+        "feasibility": "Does the work fit the budget and duration?",
+        "scalability": "Does it generalize past the immediate scope?",
+        "reproducibility": "Will code, data, and artifacts be released?",
+        "ethics": "IRB, RCR, dual-use addressed?",
+        "broader_impact": "Specific activities, populations, metrics?",
+        "theoretical_basis": "Why should the approach work?",
+        "baselines": "Compared against the right state of the art?",
+        "limitations": "Are the claims bounded?",
+        "team_expertise": "Why is THIS team the one to do it?",
+        "data_availability": "Where does the data come from, who owns it?",
+        "intellectual_merit": "Is the intellectual contribution explicit?"
+      },
+      "committee": [
+        {"name": "Prof. Hawthorne", "title": "the theory hawk", "specialties": ["theoretical_basis", "novelty"], "base_damage": [14, 22], "specialty_damage": [22, 34]},
+        {"name": "Prof. Okafor", "title": "the methodologist", "specialties": ["methodology", "evaluation", "baselines"], "base_damage": [12, 20], "specialty_damage": [20, 32]},
+        {"name": "Prof. Lindqvist", "title": "the program officer", "specialties": ["feasibility", "broader_impact", "team_expertise"], "base_damage": [14, 22], "specialty_damage": [22, 34]},
+        {"name": "Prof. Reyes", "title": "the skeptic", "specialties": ["prior_work", "limitations", "reproducibility"], "base_damage": [12, 18], "specialty_damage": [18, 30]},
+        {"name": "Prof. Tanaka", "title": "the impact reviewer", "specialties": ["intellectual_merit", "ethics", "data_availability"], "base_damage": [14, 20], "specialty_damage": [20, 32]}
+      ],
+      "related": {
+        "methodology": ["evaluation", "baselines"],
+        "evaluation": ["methodology", "baselines"],
+        "baselines": ["methodology", "prior_work"],
+        "novelty": ["prior_work"],
+        "prior_work": ["novelty", "baselines"],
+        "feasibility": ["data_availability", "team_expertise"],
+        "scalability": ["feasibility"],
+        "reproducibility": ["methodology"],
+        "broader_impact": ["intellectual_merit", "ethics"],
+        "intellectual_merit": ["broader_impact", "novelty"],
+        "theoretical_basis": ["novelty", "methodology"],
+        "limitations": ["reproducibility"],
+        "team_expertise": ["feasibility"],
+        "data_availability": ["feasibility", "ethics"],
+        "ethics": ["broader_impact", "data_availability"]
+      }
+    },
+    "research-idea": {
+      "label": "General research idea / direction",
+      "md": "lenses/research-idea.md",
+      "keywords": ["idea", "research direction", "hypothesis", "approach", "concept", "pitch", "is this worth"],
+      "vectors": {
+        "novelty": "What exactly is new here that no one has done?",
+        "prior_work": "Who is closest, and how is this different?",
+        "problem_significance": "Does solving this matter, and to whom?",
+        "approach_soundness": "Is there a credible path from idea to result?",
+        "evaluation_validity": "How would you know it worked, convincingly?",
+        "threats_to_validity": "What confounds or biases could explain the result away?",
+        "feasibility": "Can you actually do this with what you have?",
+        "scope_boundaries": "Is the scope bounded, or is it three projects?",
+        "falsifiability": "What result would prove the idea wrong?",
+        "contribution_clarity": "Can you state the contribution in one sentence?",
+        "assumptions": "What load-bearing assumptions go unexamined?",
+        "alternatives": "Why this approach over the obvious simpler one?"
+      },
+      "committee": [
+        {"name": "Dr. Vance", "title": "the skeptic", "specialties": ["novelty", "prior_work", "alternatives"], "base_damage": [13, 21], "specialty_damage": [21, 33]},
+        {"name": "Dr. Okonkwo", "title": "the methodologist", "specialties": ["approach_soundness", "evaluation_validity", "threats_to_validity"], "base_damage": [12, 20], "specialty_damage": [20, 32]},
+        {"name": "Dr. Sato", "title": "the pragmatist", "specialties": ["feasibility", "scope_boundaries"], "base_damage": [13, 20], "specialty_damage": [20, 31]},
+        {"name": "Dr. Ellison", "title": "the theoretician", "specialties": ["falsifiability", "assumptions"], "base_damage": [14, 22], "specialty_damage": [22, 34]},
+        {"name": "Dr. Moreau", "title": "the editor", "specialties": ["problem_significance", "contribution_clarity"], "base_damage": [12, 19], "specialty_damage": [19, 30]}
+      ],
+      "related": {
+        "novelty": ["prior_work", "alternatives"],
+        "prior_work": ["novelty", "alternatives"],
+        "alternatives": ["approach_soundness", "novelty"],
+        "approach_soundness": ["evaluation_validity", "assumptions"],
+        "evaluation_validity": ["threats_to_validity", "approach_soundness"],
+        "threats_to_validity": ["evaluation_validity"],
+        "feasibility": ["scope_boundaries"],
+        "scope_boundaries": ["feasibility", "contribution_clarity"],
+        "falsifiability": ["evaluation_validity", "assumptions"],
+        "contribution_clarity": ["problem_significance", "novelty"],
+        "problem_significance": ["contribution_clarity"],
+        "assumptions": ["approach_soundness"]
+      }
+    },
+    "methodology-strategy": {
+      "label": "Methodology / engineering or evaluation strategy",
+      "md": "lenses/methodology-strategy.md",
+      "keywords": ["strategy", "methodology", "test", "testing", "evaluation plan", "pipeline", "experimental design", "protocol", "benchmark", "procedure", "study design"],
+      "vectors": {
+        "construct_validity": "Does the procedure measure what it claims to?",
+        "coverage": "What classes of cases does it systematically miss?",
+        "cost_orchestration": "Is it actually runnable at the stated scale/cost?",
+        "false_positives": "How are spurious findings filtered, and at what cost?",
+        "false_negatives": "What real defects slip through silently?",
+        "ground_truth": "How do you know a flagged result is actually correct (the oracle problem)?",
+        "reproducibility": "Could someone else re-run it and get the same outcome?",
+        "baseline_simplicity": "Why this over a simpler/cheaper approach that may do as well?",
+        "aggregation_blind_spots": "What does the consensus/aggregation step discard?",
+        "confounds": "What uncontrolled variable could explain the results?",
+        "failure_modes": "How does it fail, and is failure visible or silent?",
+        "self_validation": "How is the strategy itself validated, not just its outputs?"
+      },
+      "committee": [
+        {"name": "The Adversary", "title": "finds what you missed", "specialties": ["false_negatives", "coverage", "failure_modes"], "base_damage": [14, 22], "specialty_damage": [22, 34]},
+        {"name": "The Cost Realist", "title": "asks who runs this", "specialties": ["cost_orchestration", "baseline_simplicity"], "base_damage": [13, 20], "specialty_damage": [20, 32]},
+        {"name": "The Measurement Statistician", "title": "doubts the numbers", "specialties": ["construct_validity", "confounds", "false_positives"], "base_damage": [13, 21], "specialty_damage": [21, 33]},
+        {"name": "The Reproducibility Hawk", "title": "wants the oracle", "specialties": ["reproducibility", "ground_truth"], "base_damage": [12, 19], "specialty_damage": [19, 31]},
+        {"name": "The Aggregation Critic", "title": "distrusts consensus", "specialties": ["aggregation_blind_spots", "self_validation"], "base_damage": [13, 20], "specialty_damage": [20, 32]}
+      ],
+      "related": {
+        "construct_validity": ["confounds", "self_validation"],
+        "coverage": ["false_negatives", "aggregation_blind_spots"],
+        "cost_orchestration": ["baseline_simplicity"],
+        "false_positives": ["construct_validity", "ground_truth"],
+        "false_negatives": ["coverage", "failure_modes"],
+        "ground_truth": ["false_positives", "reproducibility"],
+        "reproducibility": ["ground_truth"],
+        "baseline_simplicity": ["cost_orchestration"],
+        "aggregation_blind_spots": ["coverage", "false_negatives"],
+        "confounds": ["construct_validity"],
+        "failure_modes": ["false_negatives"],
+        "self_validation": ["construct_validity", "reproducibility"]
+      }
+    },
+    "thesis-defense": {
+      "label": "Thesis / dissertation defense",
+      "md": "lenses/thesis-defense.md",
+      "keywords": ["dissertation", "defense", "defence", "committee", "body of work", "chapter", "viva", "oral exam", "thesis"],
+      "vectors": {
+        "contribution_boundaries": "What is and is not your contribution?",
+        "coherence": "Do the chapters form one body of work or three papers stapled together?",
+        "novelty": "What did the field not know before this thesis?",
+        "methodology": "Are the methods across chapters sound and consistent?",
+        "results_validity": "Do the results actually support the claims?",
+        "limitations": "Do you know and own the boundaries of your work?",
+        "positioning": "Where does this sit relative to the field's canon?",
+        "depth": "Is any chapter thin, or is the depth uniform?",
+        "significance": "Why does this work matter beyond the degree?",
+        "future_work": "Do you see what comes next, and why you stopped where you did?",
+        "reproducibility": "Could the field build on your artifacts?",
+        "question_handling": "Can you defend a claim live, under pressure, without deflecting?"
+      },
+      "committee": [
+        {"name": "The External Examiner", "title": "represents the field", "specialties": ["contribution_boundaries", "significance", "positioning"], "base_damage": [15, 23], "specialty_damage": [23, 35]},
+        {"name": "The Methods Chair", "title": "checks the rigor", "specialties": ["methodology", "results_validity"], "base_damage": [13, 21], "specialty_damage": [21, 33]},
+        {"name": "The Skeptic", "title": "probes the claims", "specialties": ["novelty", "limitations"], "base_damage": [13, 20], "specialty_damage": [20, 32]},
+        {"name": "The Breadth Checker", "title": "reads every chapter", "specialties": ["coherence", "depth"], "base_damage": [12, 19], "specialty_damage": [19, 31]},
+        {"name": "The Advisor", "title": "looks forward", "specialties": ["future_work", "reproducibility", "question_handling"], "base_damage": [12, 18], "specialty_damage": [18, 30]}
+      ],
+      "related": {
+        "contribution_boundaries": ["significance", "novelty"],
+        "coherence": ["depth", "positioning"],
+        "novelty": ["positioning", "contribution_boundaries"],
+        "methodology": ["results_validity"],
+        "results_validity": ["methodology", "limitations"],
+        "limitations": ["results_validity", "future_work"],
+        "positioning": ["novelty", "coherence"],
+        "depth": ["coherence"],
+        "significance": ["contribution_boundaries"],
+        "future_work": ["limitations"],
+        "reproducibility": ["methodology"],
+        "question_handling": ["results_validity"]
+      }
+    }
+  }
+}

@@ -48,11 +48,26 @@ Once installed, the skill auto-triggers on phrases like "mock defense",
 ## Layout
 
 ```
-.claude-plugin/marketplace.json      # marketplace catalog
+.claude-plugin/marketplace.json          # marketplace catalog
 phd-defence/
-  .claude-plugin/plugin.json         # plugin manifest
+  .claude-plugin/plugin.json             # plugin manifest
   skills/phd-defence/
-    SKILL.md                         # skill instructions
-    references/nsf_hardening.md       # 15-point checklist + attack templates
-    scripts/simulator.py             # optional game engine
+    SKILL.md                             # skill instructions (+ lens selection)
+    references/
+      lenses.json                        # lens registry + per-lens simulator config
+      lenses/
+        research-idea.md                 # default lens
+        methodology-strategy.md          # engineering / evaluation strategy
+        thesis-defense.md                # dissertation defense
+        nsf-grant.md                     # competitive grant proposal
+    scripts/simulator.py                 # optional, lens-driven game engine
 ```
+
+## Lenses
+
+The skill picks an evaluation **lens** that fits the subject — a general
+research idea (default), a methodology/evaluation strategy, a thesis defense, or
+a grant proposal. Each lens has its own checklist, attack templates, and
+simulator attack vectors. Add a domain by dropping a `references/lenses/<id>.md`
+and registering it in `references/lenses.json`. List them at runtime with
+`python3 ${CLAUDE_SKILL_DIR}/scripts/simulator.py --list-lenses`.
