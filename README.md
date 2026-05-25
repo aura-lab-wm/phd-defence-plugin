@@ -1,12 +1,21 @@
-# phd-defence (Claude Code plugin)
+# phd-defence — Claude Code plugin
 
-Stress-test a research idea, thesis, or NSF proposal against hostile reviewers
-before the real ones see it. Bundles a 15-point pre-submission checklist mapped
-to NSF criteria, section-by-section attack templates, and an optional gamified
-simulator.
+> **This file is human documentation, not skill instructions.** Claude never
+> loads this README into its prompt — the only text Claude reads when the skill
+> runs is `phd-defence/skills/phd-defence/SKILL.md`. Edit that file to change
+> behavior; edit this one to change what teammates read.
 
-This repo is a Claude Code **plugin marketplace** (`mastropaolo-skills`)
-containing one plugin (`phd-defence`).
+This repository is a Claude Code **plugin marketplace** (`mastropaolo-skills`)
+containing a single plugin, `phd-defence`.
+
+## What the skill does
+
+Stress-tests a research idea, thesis, or NSF proposal against hostile reviewers
+before the real ones see it. It bundles:
+
+- a **15-point pre-submission checklist** mapped to NSF review criteria;
+- **section-by-section hostile attack templates** — the questions reviewers actually ask;
+- an optional **gamified simulator** for low-stakes mock-defense practice.
 
 ## Install (for coworkers)
 
