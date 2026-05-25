@@ -1,0 +1,14 @@
+{
+  "name": "mastropaolo-skills",
+  "owner": {
+    "name": "Antonio Mastropaolo",
+    "email": "amastropaolo@wm.edu"
+  },
+  "plugins": [
+    {
+      "name": "phd-defence",
+      "source": "./phd-defence",
+      "description": "Stress-test a research idea, thesis, or NSF proposal against hostile reviewers (checklist + attack templates + simulator)."
+    }
+  ]
+}
