@@ -22,9 +22,12 @@ before the real ones see it. It bundles:
 In Claude Code:
 
 ```
-/plugin marketplace add antonio-mastropaolo/phd-defence-plugin
+/plugin marketplace add aura-lab-wm/phd-defence-plugin
 /plugin install phd-defence@mastropaolo-skills
 ```
+
+(The repo is private to the `aura-lab-wm` org, so coworkers need org access and a
+GitHub login in their Git credentials to add the marketplace.)
 
 Replace the marketplace source with a local path if you received the folder
 directly:
