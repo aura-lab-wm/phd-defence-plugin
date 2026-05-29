@@ -9,6 +9,11 @@
       "name": "phd-defence",
       "source": "./phd-defence",
       "description": "Stress-test a research idea, thesis, or NSF proposal against hostile reviewers (checklist + attack templates + simulator)."
+    },
+    {
+      "name": "postmark-ops",
+      "source": "./postmark-ops",
+      "description": "Send & verify Postmark email end-to-end: fetch the Server token from a logged-in Chrome session (no hand-pasting), prove DKIM/SPF, and publish DKIM + Return-Path DNS at any registrar. Skill + postmark-ops/cloudflare-ops agents."
     }
   ]
 }
